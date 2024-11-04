@@ -5,7 +5,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
 import { z } from "zod";
-import { updateWorkspaceSchema } from "../schema";
+import { updateWorkspaceSchema } from "../schemas";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
