@@ -52,7 +52,7 @@ const app = new Hono()
     async (c) => {
         const { name, email, password } = c.req.valid("json");
  
-        const { account }= await createAdminClient();
+        const { account } = await createAdminClient();
         await account.create(
             ID.unique(),
             email,
