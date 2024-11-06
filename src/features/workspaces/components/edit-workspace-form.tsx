@@ -97,9 +97,8 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
             form: finalValues,
             param: { workspaceId: initialValues.$id }
         }, {
-            onSuccess: ({ data }) => {
+            onSuccess: () => {
                 form.reset();
-                router.push(`/workspaces/${data.$id}`)
             }
         })
     };
@@ -123,11 +122,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
 
         resetInvite({ 
             param: { workspaceId: initialValues.$id}
-        }, {
-            onSuccess: () => {
-                router.refresh()
-            }
-        }
+        },
     )
 }
     return (
@@ -315,7 +310,7 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
                             size='sm'
                             type="button"
                             disabled={isPending}
-                            onClick={handleResetInvite}
+                            onClick={handleDelete}
                         >
                             Delete Workspace
                         </Button>
