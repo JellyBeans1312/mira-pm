@@ -70,7 +70,7 @@ const app = new Hono()
 
             if(search) { 
                 console.log('search: ', search)
-                query.push(Query.equal('name', search))
+                query.push(Query.search('name', search))
             };
 
             const tasks = await databases.listDocuments(
