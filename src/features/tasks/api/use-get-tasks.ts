@@ -5,11 +5,11 @@ import { TaskStatus } from "../types";
 
 interface UseGetTasksProps {
     workspaceId: string;
-    projectId: string;
-    assigneeId: string;
-    status: TaskStatus;
-    search: string;
-    dueDate: string;
+    projectId?: string | null;
+    assigneeId?: string | null;
+    status?: TaskStatus |null;
+    search?: string | null;
+    dueDate?: string | null;
 }
 
 export const useGetTasks = ({ 
@@ -21,15 +21,23 @@ export const useGetTasks = ({
     dueDate,
  }: UseGetTasksProps) => {
     const query = useQuery({
-        queryKey: ['tasks', workspaceId],
+        queryKey: [
+            'tasks', 
+            workspaceId,
+            projectId,
+            assigneeId,
+            status,
+            search,
+            dueDate
+        ],
         queryFn: async () => {
             const response = await client.api.tasks.$get({ query: { 
                 workspaceId, 
-                projectId,
-                assigneeId,
-                status,
-                search,
-                dueDate
+                projectId: projectId ?? undefined,
+                assigneeId: assigneeId ?? undefined,
+                status: status ?? undefined,
+                search: search ?? undefined,
+                dueDate: dueDate ?? undefined
             } });
 
             if(!response.ok) {
