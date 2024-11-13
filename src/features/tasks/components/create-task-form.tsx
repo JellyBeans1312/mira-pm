@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createTaskSchema } from "../schemas";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 import { 
@@ -36,7 +35,6 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { MemberAvatar } from "@/features/members/components/members-avatar";
 import { useCreateTask } from "@/features/tasks/api/use-create-task";
-import { useGetTasks } from "@/features/tasks/api/use-get-tasks";
 import { TaskStatus } from "../types";
 
 interface CreateTaskFormProps {
@@ -47,8 +45,7 @@ interface CreateTaskFormProps {
 
 export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskFormProps ) => {
     const workspaceId = useWorkspaceId();
-    const router = useRouter();
-    const { mutate, isPending } = useCreateTask();
+    const { mutate: createTask, isPending } = useCreateTask();
 
 
     const form = useForm<z.infer<typeof createTaskSchema>>({
@@ -60,7 +57,7 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: Crea
 
     const onSubmit = ( values: z.infer<typeof createTaskSchema>) => {
 
-        mutate({ json: { ...values, workspaceId } }, {
+        createTask({ json: { ...values, workspaceId } }, {
             onSuccess: ({ data }) => {
                 form.reset();
                 onCancel?.();
