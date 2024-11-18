@@ -1,16 +1,21 @@
 'use client';
-import { Loader, PlusIcon } from "lucide-react";
+
 import { useQueryState } from "nuqs";
+import { Loader, PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
 
-import { useCreateTaskModal } from "../hooks/use-create-task-modal";
+
 import { useGetTasks } from "@/features/tasks/api/use-get-tasks";
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { DataFilters } from "@/features/tasks/components/data-filters";
 import { useTaskFilters } from "@/features/tasks/hooks/use-task-filters";
+import { useCreateTaskModal } from "@/features/tasks/hooks/use-create-task-modal";
+import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
+
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
 
 export const TaskViewSwitcher = () => {
     const [{
@@ -75,7 +80,7 @@ export const TaskViewSwitcher = () => {
                 ) : (
                     <>
                         <TabsContent value="table" className="mt-0">
-                            {JSON.stringify(tasks)}
+                            <DataTable columns={columns} data={tasks?.documents || []} />
                         </TabsContent>
                         <TabsContent value="kanban" className="mt-0">
                             {JSON.stringify(tasks)}
