@@ -41,9 +41,10 @@ interface CreateTaskFormProps {
     onCancel?: () => void;
     projectOptions: { id: string, name: string, imageUrl: string }[];
     memberOptions: { id: string, name: string }[];
+    initialStatus: TaskStatus;
 };
 
-export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskFormProps ) => {
+export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions, initialStatus }: CreateTaskFormProps ) => {
     const workspaceId = useWorkspaceId();
     const { mutate: createTask, isPending } = useCreateTask();
 
@@ -51,12 +52,12 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: Crea
     const form = useForm<z.infer<typeof createTaskSchema>>({
         resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
         defaultValues: {
-            workspaceId
+            workspaceId,
+            status: initialStatus
         },
     });
 
     const onSubmit = ( values: z.infer<typeof createTaskSchema>) => {
-
         createTask({ json: { ...values, workspaceId } }, {
             onSuccess: ({ data }) => {
                 form.reset();
@@ -154,12 +155,12 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: Crea
                                             Status
                                         </FormLabel>
                                         <Select
-                                            defaultValue={field.value}
+                                            defaultValue={initialStatus}
                                             onValueChange={field.onChange}
                                         >
                                             <FormControl>
                                                 <SelectTrigger>
-                                                    <SelectValue placeholder='Select task status'/>
+                                                    <SelectValue placeholder='Select Task Status'/>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <FormMessage />
