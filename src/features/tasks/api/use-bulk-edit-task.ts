@@ -4,10 +4,10 @@ import { InferRequestType, InferResponseType } from 'hono';
 import { toast } from 'sonner';
 import { client } from '@/lib/rpc';
 
-type ResponseType = InferResponseType<typeof client.api.tasks[":taskId"]["$patch"], 200>;
-type RequestType = InferRequestType<typeof client.api.tasks[":taskId"]["$patch"]>;
+type ResponseType = InferResponseType<typeof client.api.tasks['bulk-update']["$post"], 200>;
+type RequestType = InferRequestType<typeof client.api.tasks['bulk-update']["$post"]>;
 
-export const useEditTask = () => {
+export const useBulkEditTasks = () => {
     const queryClient = useQueryClient();
 
     const mutation = useMutation<
@@ -15,23 +15,22 @@ export const useEditTask = () => {
         Error,
         RequestType
     >({
-        mutationFn: async ({ json, param }) => {
-            const response = await client.api.tasks[":taskId"]["$patch"]({ json, param });
+        mutationFn: async ({ json }) => {
+            const response = await client.api.tasks["bulk-update"]["$post"]({ json });
 
             if(!response.ok) {
-                throw new Error('Failed to update task... Try again later')
+                throw new Error('Failed to update tasks... Try again later')
             }
 
             return await response.json();
         },
         onSuccess: ({ data }) => {
-            toast.success('You updated the task!');
+            toast.success('Tasks Updated!');
 
             queryClient.invalidateQueries({ queryKey: ["tasks"]})
-            queryClient.invalidateQueries({ queryKey: ["task", data.$id]})
         },
         onError: () => {
-            toast.error('Failed to update task... Try again later');
+            toast.error('Failed to update tasks... Try again later');
         }
     });
     return mutation;
