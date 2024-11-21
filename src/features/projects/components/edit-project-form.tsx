@@ -71,17 +71,9 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
             ...values
         }
 
-        console.log(finalValues.image)
-
         updateProject({ 
             form: finalValues,
             param: { projectId: initialValues.$id }
-        }, {
-            onSuccess: ({ data }) => {
-                form.reset();
-                router.push(`/workspaces/${initialValues.workspaceId}/projects/${data.$id}`);
-                router.refresh();
-            }
         })
     };
     

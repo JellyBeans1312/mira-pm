@@ -58,8 +58,6 @@ export const MembersList = () => {
 
         deleteMember({
             param: { memberId },
-        }, {
-            onSuccess: () => router.refresh()
         });
     };
 
