@@ -11,11 +11,16 @@ import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { useGetProject } from "@/features/projects/api/use-get-project";
+import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
+import { Analytics } from "@/components/analytics";
 
 export const ProjectIdClient = async () => {
     const projectId = useProjectId();
 
-    const { data: project, isLoading } = useGetProject({ projectId });
+    const { data: project, isLoading: isLoadingProject } = useGetProject({ projectId });
+    const { data: projectAnalytics, isLoading: isLoadingAnalytics } = useGetProjectAnalytics({ projectId })
+
+    const isLoading = isLoadingAnalytics || isLoadingProject;
 
     if(isLoading) {
         return <PageLoader />
@@ -24,6 +29,7 @@ export const ProjectIdClient = async () => {
     if(!project) {
         return <PageError message="Project not found" />
     }
+
     return (
         <div className="flex flex-col gap-y-4">
         <div className="flex items-center justify-between">
@@ -44,6 +50,9 @@ export const ProjectIdClient = async () => {
                 </Button>
             </div>
         </div>
+        {projectAnalytics ? (
+            <Analytics data={projectAnalytics} />
+        ): null}
         <TaskViewSwitcher hideProjectFilter />
     </div>
     )
