@@ -8,7 +8,7 @@ import { createAdminClient } from "@/lib/appwrite";
 import { DATABASE_ID, WORKSPACES_ID, MEMBERS_ID } from "@/config";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { getMember } from "../utils";
-import { MemberRole } from "../types";
+import { Member, MemberRole } from "../types";
 
 const app = new Hono()
     .get(
@@ -29,7 +29,7 @@ const app = new Hono()
 
             if(!member) return c.json({ error: 'Unauthorized'}, 401);
 
-            const members = await databases.listDocuments(
+            const members = await databases.listDocuments<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 [Query.equal('workspaceId', workspaceId)]
@@ -63,13 +63,13 @@ const app = new Hono()
             const user = c.get('user');
             const databases = c.get('databases');
 
-            const memberToDelete = await databases.getDocument(
+            const memberToDelete = await databases.getDocument<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 memberId,
             );
 
-            const allMembersInWorkspace = await databases.listDocuments(
+            const allMembersInWorkspace = await databases.listDocuments<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 [Query.equal('workspaceId', memberToDelete.workspaceId)]
@@ -110,13 +110,13 @@ const app = new Hono()
             const user = c.get('user');
             const databases = c.get('databases');
 
-            const memberToUpdate = await databases.getDocument(
+            const memberToUpdate = await databases.getDocument<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 memberId,
             );
 
-            const allMembersInWorkspace = await databases.listDocuments(
+            const allMembersInWorkspace = await databases.listDocuments<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 [Query.equal('workspaceId', memberToUpdate.workspaceId)]
@@ -138,7 +138,7 @@ const app = new Hono()
                 return c.json({ error: 'Workspace must have an admin'}, 400);
             };
 
-            await databases.updateDocument(
+            await databases.updateDocument<Member>(
                 DATABASE_ID,
                 MEMBERS_ID,
                 memberId,
