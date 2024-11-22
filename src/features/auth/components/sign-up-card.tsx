@@ -25,6 +25,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registerSchema } from '@/features/auth/schemas';
 import { useRegister } from '@/features/auth/api/use-register';
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 
 
 export const SignUpCard = () => {
@@ -133,6 +134,7 @@ export const SignUpCard = () => {
                     variant={'secondary'}
                     size={'lg'}
                     className='w-full'
+                    onClick={() => signUpWithGoogle()}
                 >
                     <FcGoogle className='mr-2 size-5' />
                     Sign Up with Google
@@ -142,6 +144,7 @@ export const SignUpCard = () => {
                     variant={'secondary'}
                     size={'lg'}
                     className='w-full'
+                    onClick={() => signUpWithGithub()}
                 >
                     <FaGithub className='mr-2 size-5' />
                     Sign Up with GitHub

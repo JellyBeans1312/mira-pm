@@ -1,4 +1,13 @@
 "use client";
+
+import { z } from 'zod';
+import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
+import { FaGithub } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { signUpWithGithub, signUpWithGoogle } from '@/lib/oauth';
 import { DottedSeparator } from '@/components/dotted-separator';
 import { Button } from '@/components/ui/button';
 import  {
@@ -15,15 +24,11 @@ import {
     FormControl,
     FormMessage,
 } from '@/components/ui/form';
+
 import { loginSchema } from '@/features/auth/schemas';
 import { useLogin } from '@/features/auth/api/use-login';
 
-import { FcGoogle } from 'react-icons/fc';
-import { FaGithub } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
+
 
 
 
@@ -109,6 +114,7 @@ export const SignInCard = () => {
                     variant={'secondary'}
                     size={'lg'}
                     className='w-full'
+                    onClick={() => signUpWithGoogle()}
                 >
                     <FcGoogle className='mr-2 size-5' />
                     Login with Google
@@ -118,6 +124,7 @@ export const SignInCard = () => {
                     variant={'secondary'}
                     size={'lg'}
                     className='w-full'
+                    onClick={() => signUpWithGithub()}
                 >
                     <FaGithub className='mr-2 size-5' />
                     Login with GitHub
