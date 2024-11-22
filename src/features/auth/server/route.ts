@@ -1,7 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator'
 import { deleteCookie, setCookie } from 'hono/cookie';
-import { z } from 'zod';
 import { ID } from 'node-appwrite';
 
 import { loginSchema, registerSchema } from '@/features/auth/schemas';

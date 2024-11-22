@@ -1,5 +1,9 @@
 import { Models } from "node-appwrite";
 
+export enum TaskStatusModal {
+    defaultStatus = '',
+};
+
 export enum TaskStatus {
     BACKLOG = "BACKLOG",
     TODO = 'TODO',

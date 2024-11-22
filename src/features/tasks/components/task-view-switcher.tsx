@@ -19,35 +19,38 @@ import { columns } from "./columns";
 import { DataKanban } from "./data-kanban";
 import { DataCalendar } from "./data-calendar";
 import { useCallback } from "react";
-import { TaskStatus } from "../types";
+import { TaskStatus, TaskStatusModal } from "../types";
 import { useBulkEditTasks } from "../api/use-bulk-edit-task";
+import { useProjectId } from "@/features/projects/hooks/use-project-id";
 
 interface TaskViewSwitcherProps {
     hideProjectFilter?: boolean;
 }
 
 export const TaskViewSwitcher = ({ hideProjectFilter}: TaskViewSwitcherProps) => {
+    const paramProjectId = useProjectId();
+
     const [{
         status,
         projectId, 
         assigneeId, 
         dueDate, 
-    }, setFilters]= useTaskFilters();
+    }] = useTaskFilters();
 
     const [view, setView] = useQueryState('task-view', {
         defaultValue: 'table'
     });
 
     const workspaceId = useWorkspaceId();
-    const { open } = useCreateTaskModal();
+    const { open: createTask } = useCreateTaskModal();
 
-    const { mutate: bulkEditTasks, isPending: isEditingTasks} = useBulkEditTasks()
+    const { mutate: bulkEditTasks } = useBulkEditTasks()
     const { 
         data: tasks,
         isLoading: isLoadingTasks
     } = useGetTasks({ 
         workspaceId,
-        projectId,
+        projectId: paramProjectId || projectId,
         assigneeId,
         status,
         dueDate,
@@ -81,7 +84,7 @@ export const TaskViewSwitcher = ({ hideProjectFilter}: TaskViewSwitcherProps) =>
                     <Button 
                         size={'sm'}    
                         className="w-full lg:w-auto" 
-                        onClick={open}
+                        onClick={() => createTask(TaskStatusModal.defaultStatus)}
                     >
                         <PlusIcon className="size-4 mr-2" />
                         New

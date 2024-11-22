@@ -2,10 +2,9 @@
 import { z } from "zod";
 import { useRef } from "react";
 import Image from "next/image";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, ImageIcon } from "lucide-react";
 
 import { zodResolver } from "@hookform/resolvers/zod";  
 import { useConfirm } from "@/hooks/use-confirm";

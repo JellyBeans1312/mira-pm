@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
-import { PlusIcon, CalendarIcon, SettingsIcon, Calendar } from "lucide-react";
+import { PlusIcon, CalendarIcon, SettingsIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Analytics } from "@/components/analytics";
@@ -21,7 +21,7 @@ import { useCreateProjectModal } from "@/features/projects/hooks/use-create-proj
 import { useCreateTaskModal } from "@/features/tasks/hooks/use-create-task-modal";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 
-import { Task, TaskStatus } from "@/features/tasks/types";
+import { Task, TaskStatus, TaskStatusModal } from "@/features/tasks/types";
 import { Project } from '@/features/projects/types';
 import { ProjectAvatar } from '@/features/projects/components/project-avatar';
 import { Member } from '@/features/members/types';
@@ -82,7 +82,7 @@ export const TaskList = ({ tasks, total }: TaskListProps) => {
                     <Button
                         variant='muted'
                         size='icon'
-                        onClick={createTask}
+                        onClick={() => createTask(TaskStatusModal.defaultStatus)}
                     >
                         <PlusIcon className='size-4 text-neutral-400' />
                     </Button>

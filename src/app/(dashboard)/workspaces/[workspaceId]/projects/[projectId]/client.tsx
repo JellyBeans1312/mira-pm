@@ -4,31 +4,28 @@ import Link from "next/link";
 import { PencilIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { PageError } from "@/components/page-error";
+import { Analytics } from "@/components/analytics";
 import { PageLoader } from "@/components/page-loader";
+import { PageError } from "@/components/page-error";
 
-import { ProjectAvatar } from "@/features/projects/components/project-avatar";
-import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { useGetProject } from "@/features/projects/api/use-get-project";
 import { useGetProjectAnalytics } from "@/features/projects/api/use-get-project-analytics";
-import { Analytics } from "@/components/analytics";
+import { TaskViewSwitcher } from "@/features/tasks/components/task-view-switcher";
+import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 
-export const ProjectIdClient = async () => {
+export const ProjectIdClient = () => {
     const projectId = useProjectId();
 
     const { data: project, isLoading: isLoadingProject } = useGetProject({ projectId });
     const { data: projectAnalytics, isLoading: isLoadingAnalytics } = useGetProjectAnalytics({ projectId })
 
-    const isLoading = isLoadingAnalytics || isLoadingProject;
+    const isLoading = isLoadingProject || isLoadingAnalytics;
 
-    if(isLoading) {
-        return <PageLoader />
-    };
+    if(isLoading) return <PageLoader />
 
-    if(!project) {
-        return <PageError message="Project not found" />
-    }
+
+    if(!project) return <PageError message="Project not found" />
 
     return (
         <div className="flex flex-col gap-y-4">

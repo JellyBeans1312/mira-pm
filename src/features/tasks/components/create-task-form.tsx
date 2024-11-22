@@ -35,13 +35,13 @@ import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { MemberAvatar } from "@/features/members/components/members-avatar";
 import { useCreateTask } from "@/features/tasks/api/use-create-task";
-import { TaskStatus } from "../types";
+import { TaskStatus, TaskStatusModal } from "../types";
 
 interface CreateTaskFormProps {
     onCancel?: () => void;
     projectOptions: { id: string, name: string, imageUrl: string }[];
     memberOptions: { id: string, name: string }[];
-    initialStatus: TaskStatus;
+    initialStatus: TaskStatus | TaskStatusModal.defaultStatus;
 };
 
 export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions, initialStatus }: CreateTaskFormProps ) => {
@@ -53,14 +53,13 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions, initia
         resolver: zodResolver(createTaskSchema.omit({ workspaceId: true })),
         defaultValues: {
             workspaceId,
-            status: initialStatus
+            status: initialStatus === TaskStatusModal.defaultStatus ? undefined : initialStatus
         },
     });
 
     const onSubmit = ( values: z.infer<typeof createTaskSchema>) => {
         createTask({ json: { ...values, workspaceId } }, {
-            onSuccess: ({ data }) => {
-                form.reset();
+            onSuccess: () => {
                 onCancel?.();
             }
         })

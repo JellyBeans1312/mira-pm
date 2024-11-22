@@ -31,7 +31,6 @@ import { DatePicker } from "@/components/date-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { MemberAvatar } from "@/features/members/components/members-avatar";
 import { useEditTask } from "@/features/tasks/api/use-edit-task";
@@ -61,7 +60,7 @@ export const EditTaskForm = ({ onCancel, projectOptions, memberOptions, initialV
     const onSubmit = ( values: z.infer<typeof createTaskSchema>) => {
 
         updateTask({ json: values, param: { taskId: initialValues.$id } }, {
-            onSuccess: ({ data }) => {
+            onSuccess: () => {
                 form.reset();
                 onCancel?.();
             }

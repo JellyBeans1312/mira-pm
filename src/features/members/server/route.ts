@@ -5,7 +5,7 @@ import { Query } from "node-appwrite";
 import { zValidator } from "@hono/zod-validator";
 import { createAdminClient } from "@/lib/appwrite";
 
-import { DATABASE_ID, WORKSPACES_ID, MEMBERS_ID } from "@/config";
+import { DATABASE_ID, MEMBERS_ID } from "@/config";
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { getMember } from "../utils";
 import { Member, MemberRole } from "../types";

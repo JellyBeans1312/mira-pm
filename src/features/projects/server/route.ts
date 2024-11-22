@@ -7,7 +7,7 @@ import { endOfMonth, startOfMonth, subMonths } from 'date-fns';
 
 import { sessionMiddleware } from "@/lib/session-middleware";
 import { getMember } from '@/features/members/utils';
-import { DATABASE_ID, IMAGES_BUCKET_ID, MEMBERS_ID, PROJECTS_ID, TASKS_ID, WORKSPACES_ID } from '@/config';
+import { DATABASE_ID, IMAGES_BUCKET_ID, PROJECTS_ID, TASKS_ID } from '@/config';
 import { createProjectSchema, updateProjectSchema } from '../schemas';
 import { Project } from '../types';
 import { Task, TaskStatus } from '@/features/tasks/types';

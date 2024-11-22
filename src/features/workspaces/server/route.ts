@@ -75,7 +75,6 @@ const app = new Hono()
         '/:workspaceId/info',
         sessionMiddleware,
         async (c) => {
-            const user = c.get('user');
             const databases = c.get('databases');
 
             const { workspaceId } = c.req.param();
@@ -89,8 +88,8 @@ const app = new Hono()
             return c.json({ data: 
                 { 
                     $id: workspaceId,
-                     name: workspace.name,
-                      imageUrl: workspace.imageUrl
+                    name: workspace.name,
+                    imageUrl: workspace.imageUrl
                 } 
             });
         }

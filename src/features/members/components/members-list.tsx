@@ -27,10 +27,8 @@ import { useDeleteMember } from '../api/use-delete-member';
 import { useUpdateMember } from '../api/use-update-member';
 import { MemberRole } from '../types';
 import { useConfirm } from '@/hooks/use-confirm';
-import { useRouter } from 'next/navigation';
 
 export const MembersList = () => {
-    const router = useRouter();
     const workspaceId = useWorkspaceId();
     
     const { data } = useGetMembers({ workspaceId });

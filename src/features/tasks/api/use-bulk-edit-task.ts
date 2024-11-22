@@ -24,7 +24,7 @@ export const useBulkEditTasks = () => {
 
             return await response.json();
         },
-        onSuccess: ({ data }) => {
+        onSuccess: () => {
             toast.success('Tasks Updated!');
 
             queryClient.invalidateQueries({ queryKey: ["tasks"]})
